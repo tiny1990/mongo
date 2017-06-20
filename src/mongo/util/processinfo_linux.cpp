@@ -384,6 +384,12 @@ public:
     * Get system memory total
     */
     static unsigned long long getSystemMemorySize() {
+        // mock memorySize by mx
+	    char *systemMemorySize = getenv("SYSTEMMEMORYSIZE");
+    	if (NULL != systemMemorySize ) {
+	    	return atol(systemMemorySize);
+        }
+        
         string meminfo = readLineFromFile("/proc/meminfo");
         size_t lineOff = 0;
         if (!meminfo.empty() && (lineOff = meminfo.find("MemTotal")) != string::npos) {
